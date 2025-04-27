@@ -7,9 +7,11 @@ import com.example.masqueradebot.dataBot.servis.GameService;
 import com.example.masqueradebot.dataBot.servis.PlayerService;
 import com.example.masqueradebot.dataBot.servis.UserServis;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
+@Transactional
 public class New_game_create implements CommandHandler{
     UserServis userServis;
     GameService gameService;
@@ -30,6 +32,26 @@ public class New_game_create implements CommandHandler{
             return createSendMessage(chatId, "Не удалось найти пользователя.");
         }
         try {
+            // Получаем текст сообщения
+            String messageText = update.getMessage().getText();
+
+            // Проверяем, начинается ли сообщение с "/create:"
+            if (!messageText.startsWith("/create:")) {
+                return createSendMessage(chatId, "Неверный формат команды. Используйте: /create:свой псевдоним");
+            }
+
+            // Извлекаем псевдоним (начиная с 8-го символа, как и раньше)
+            String nickname = messageText.substring(8);
+
+            // Проверяем, что псевдоним не пустой
+            if (nickname.trim().isEmpty()) {
+                return createSendMessage(chatId, "Псевдоним не может быть пустым.");
+            }
+            // Проверяем, что длина псевдонима в пределах допустимого
+            if (nickname.length() < 3 || nickname.length() > 20) {
+                return createSendMessage(chatId, "Длина псевдонима должна быть от 3 до 20 символов.");
+            }
+
             // Проверяем, есть ли у пользователя активная игра
             Game activeGame = gameService.findActiveGameByUser(user);
 
@@ -48,7 +70,7 @@ public class New_game_create implements CommandHandler{
             Player player=new Player();
             player.setUser(user);
             player.setGame(newGame);
-            player.setNickname(update.getMessage().getText().substring(8));
+            player.setNickname(nickname);
             playerService.savePlayer(player);
 
             // Добавляем игрока в игру *через объект Game*

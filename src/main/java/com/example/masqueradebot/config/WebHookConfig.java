@@ -40,7 +40,7 @@ public class WebHookConfig extends TelegramWebhookBot {
 
     @Override
     public String getBotPath() {   //просит строчку из нгрок(url)
-        return "https://abaed5a21872e2fb98d758dd26cd614c.serveo.net";
+        return "https://709536fc764b63b7ed9348589454cbe3.serveo.net";
     }
 
     @Override

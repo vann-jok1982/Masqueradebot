@@ -8,7 +8,7 @@ public class Join implements CommandHandler{
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.getMessage().getChatId();
-        return createSendMessage(chatId, "логика присоединения к игре ");
+        return createSendMessage(chatId, "что бы присоеденится к существующей игре введи /join/код игры/свой псевдоним");
     }
 
     private SendMessage createSendMessage(Long chatId, String text) {

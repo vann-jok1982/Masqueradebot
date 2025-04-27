@@ -53,6 +53,8 @@ public class BotFasade {
                     this.commandHandlers.put("/начать новую игру", commandHandler);
                 }else if (commandHandler instanceof New_game_create) {
                     this.commandHandlers.put("/create:", commandHandler);
+                } else if (commandHandler instanceof Join_create) {
+                    this.commandHandlers.put("/join", commandHandler);
                 }
             }
             log.info("Initialized command handlers: {}", this.commandHandlers.keySet());
