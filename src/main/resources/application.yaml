@@ -19,8 +19,10 @@ spring:
       filter:
         enabled: true
 telegram:
+  webhook:
+    path: https://4b018cf9ef2a156960a9347ff75d295f.serveo.net
   bot:
-    username: /@MasqueradeGameBot
+    username: "@MasqueradeGameBot"
     token: 7706965489:AAHR6381gywXExGNddCSE_JgDQ-ulpij_YI
 logging:
   level:

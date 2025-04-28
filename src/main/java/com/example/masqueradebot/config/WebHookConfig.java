@@ -5,6 +5,7 @@ import com.example.masqueradebot.botFasade.BotFasade;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
@@ -28,6 +29,16 @@ public class WebHookConfig extends TelegramWebhookBot {
     private final LongPollingBotConfig longPollingBotConfig;
 
     private final BotFasade botFasade;
+
+    @Value("${telegram.webhook.path}")
+    private String botPath;
+
+    @Value("${telegram.bot.username}")
+    private String botUsername;
+
+    @Value("${telegram.bot.token}")
+    private String botToken;
+
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) { //метод для возврата сообщений
         SendMessage sendMessage = botFasade.obrabotkaHandleUpdate(update);
@@ -40,12 +51,12 @@ public class WebHookConfig extends TelegramWebhookBot {
 
     @Override
     public String getBotPath() {   //просит строчку из нгрок(url)
-        return "https://709536fc764b63b7ed9348589454cbe3.serveo.net";
+        return botPath;
     }
 
     @Override
     public String getBotUsername() {  //просит имя бота
-        return "/@MasqueradeGameBot";
+        return botUsername;
     }
 
     @PostConstruct
@@ -59,8 +70,7 @@ public class WebHookConfig extends TelegramWebhookBot {
     }
 
     public void setWebHook() throws IOException {
-        String token = "7706965489:AAHR6381gywXExGNddCSE_JgDQ-ulpij_YI";
-        String url = String.format("https://api.telegram.org/bot%s/setWebhook?url=%s", token, getBotPath());
+        String url = String.format("https://api.telegram.org/bot%s/setWebhook?url=%s", botToken, getBotPath());
         log.info(url);
         URL obj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
