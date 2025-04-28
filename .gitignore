@@ -32,3 +32,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Config files (add these!)
+application.yaml
+application.properties
