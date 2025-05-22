@@ -15,4 +15,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     List<Player> findByGame_GameCode(Long gameCode); // Исправлено имя метода
     Player findByUserAndGame_GameCode(User user, Long gameCode);
+    Player findByNickname(String nickname);
+    Player findByUser(User user);
 }

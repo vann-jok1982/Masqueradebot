@@ -6,7 +6,6 @@ import com.example.masqueradebot.dataBot.servis.QuestionService;
 import com.example.masqueradebot.dataBot.servis.UserServis;
 import com.example.masqueradebot.handler.*;
 import com.example.masqueradebot.keyboard.KeyboardFactory;
-import com.example.masqueradebot.keyboard.KeyboardStart;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -55,6 +54,12 @@ public class BotFasade {
                     this.commandHandlers.put("/create:", commandHandler);
                 } else if (commandHandler instanceof Join_create) {
                     this.commandHandlers.put("/join", commandHandler);
+                }else if (commandHandler instanceof StartGameHandler) {
+                    this.commandHandlers.put("/start", commandHandler);
+                }else if (commandHandler instanceof AskQuestion) {
+                    this.commandHandlers.put("/move", commandHandler);
+                }else if (commandHandler instanceof AnswerHHandler) {
+                    this.commandHandlers.put("/answer", commandHandler);
                 }
             }
             log.info("Initialized command handlers: {}", this.commandHandlers.keySet());
@@ -65,7 +70,7 @@ public class BotFasade {
         log.info("Received update: {}", update);
         String userMessage = update.getMessage().getText();
         Long chatId = update.getMessage().getChatId();
-        String username = update.getMessage().getFrom().getUserName();
+        String username = update.getMessage().getFrom().getFirstName();
         if (userServis.FindBiId(chatId) == null) userServis.SaveUser(chatId, username);
         SendMessage sendMessage=null;
         for (Map.Entry<String, CommandHandler> entry : commandHandlers.entrySet()) {

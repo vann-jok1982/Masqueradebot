@@ -19,6 +19,7 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @OrderColumn(name = "player_order") // Добавляем аннотацию
     private List<Player> players=new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

@@ -71,13 +71,16 @@ public class New_game_create implements CommandHandler{
             player.setUser(user);
             player.setGame(newGame);
             player.setNickname(nickname);
+            player.setRealName(user.getUsername());
+
             playerService.savePlayer(player);
 
             // Добавляем игрока в игру *через объект Game*
             gameService.addPlayerToGame(newGame, player);
 
             // Отправляем пользователю сообщение с информацией о созданной игре
-            return createSendMessage(chatId, "Игра создана , код игры : "+ newGame.getGameCode());
+            return createSendMessage(chatId, "Игра создана , код игры : "+ newGame.getGameCode()+
+                    "      \n не забудь добавиться в общий чат ,как все решат что готовы жмите /start ");
         } catch (Exception e) {
             // Обрабатываем исключения
             return createSendMessage(chatId, "Произошла ошибка при создании игры.");

@@ -16,8 +16,9 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
 
-    private Long asker;
-    private Long target;
+    private Long asker; //спрашивающий
+    private Long target;//отвечающий
+    private String targetNickName;
 
     @Column(length = 1000)  // Adjust length as needed
     private String questionText;
